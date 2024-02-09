@@ -76,8 +76,9 @@ export default function Reservation() {
             <Calendar
               className="calendarDays"
               locale="en-US"
-              onChange={handleDateChange}
               value={date}
+              onClickDay={(value) => handleDateChange(value)}
+              activeStartDate={date}
             />
             <p>Selected Date: {date.toISOString().split('T')[0]}</p>
           </div>
