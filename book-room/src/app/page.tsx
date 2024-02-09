@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
     <BackgroundImg images={images} />
-    <main className="flex min-h-screen flex-col items-center justify-between p-16">
+    <main className="flex min-h-screen flex-col items-center justify-between">
 
       <Card>
 
@@ -24,7 +24,7 @@ export default function Home() {
         <h1 className="text-4xl font-bold title-h1 ">Book a Room</h1>
         <p className="text-lg">Book a room for your next quiet study</p>
         <Link href="/reservation">
-        <button className="bg-green-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8" >Book Now</button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8" >Book Now</button>
         </Link>
        
 

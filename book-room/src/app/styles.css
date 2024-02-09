@@ -95,4 +95,9 @@
     .calendarDays {
         width: 95%;
     }
+    .calendarTime {
+        font-size: x-small;
+        margin: 3px;
+        padding: 2px;
+    }
 }
