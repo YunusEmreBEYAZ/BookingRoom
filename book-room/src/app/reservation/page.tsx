@@ -35,6 +35,13 @@ export default function Reservation() {
     fetchData();
    },[])
 
+   const convertUTCtoLocal = (utcDate: any) => {
+    const offset = new Date().getTimezoneOffset();
+    const localDate = new Date(utcDate.getTime() - (offset * 60 * 1000));
+    return localDate;
+  };
+
+
   const handleDateChange = (newDate: Date | Date[]) => {
     if (Array.isArray(newDate)) {
       throw new Error("You cannot select multiple dates.");
@@ -50,7 +57,7 @@ export default function Reservation() {
   };
 
   const AvailableHoursForSelectedDate = availability.find(
-    (item) => new Date(item.date).toISOString().split('T')[0] === date.toISOString().split('T')[0] );
+    (item) => new Date(item.date).toISOString().split('T')[0] === convertUTCtoLocal(date).toISOString().split('T')[0] );
 
     console.log("AvailableHoursForSelectedDate:", AvailableHoursForSelectedDate);
 
@@ -75,12 +82,12 @@ export default function Reservation() {
             <h1 className="text-2xl font-bold mb-2">Date</h1>
             <Calendar
               className="calendarDays"
-              locale="en-US"
+              locale="en-EU"
               value={date}
               onClickDay={(value) => handleDateChange(value)}
               activeStartDate={date}
             />
-            <p>Selected Date: {date.toISOString().split('T')[0]}</p>
+            <p>Selected Date: {convertUTCtoLocal(date).toISOString().split('T')[0]}</p>
           </div>
 
             
