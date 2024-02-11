@@ -19,11 +19,16 @@ const Card = ({children}: {children : React.ReactNode}) => {
 
     
     }
+    if(typeof window !== "undefined") {
+
+
+
         if(window.innerWidth < 768){
             cardStyle.width = "95%";
             cardStyle.height = "95%";
             cardStyle.padding = "20px";
         }
+    }
 
     return (
         <div style={cardStyle}>{children}</div>
