@@ -5,6 +5,10 @@ import { useState,useEffect } from "react";
 import "../../app/styles.css"
 import  fetchAvailability  from "../api/api";
 import {sendMail} from "../lib/mail";
+import Image from "next/image";
+import VuLogo from "../../../public/logo.png";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 
 
@@ -32,6 +36,7 @@ export default function Reservation() {
   const [availability, setAvailability] = useState<DataAvailability[]>([]);
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -77,11 +82,13 @@ export default function Reservation() {
       
         {to: email, 
           subject: "Room Reservation", 
-          body: `You have successfully booked a room for ${convertUTCtoLocal(date).toISOString().split('T')[0]} at ${selectedTime}`,
+          body: `<h4>You have successfully booked a room for ${convertUTCtoLocal(date).toISOString().split('T')[0]} at ${selectedTime}</h4>`,
         });
         console.log(email);
         console.log(selectedTime);
         console.log(convertUTCtoLocal(date).toISOString().split('T')[0]);
+        setShowModal(true);
+        setEmail("");
     } else {
       setError("Please provide an email with @gmail.com");
     };
@@ -110,6 +117,9 @@ export default function Reservation() {
     <>
       <main className="flex min-h-screen flex-col items-center justify-between">
         <Card>
+          <a href="https://www.omniabuildings.nl/" target="_blank" className="vuLink">
+          <Image className="vuLogo" src={VuLogo} alt="VU Logo" />
+            </a>
           <div className="flex flex-col items-center justify-between calendar">
             <h1 className="text-2xl font-bold mb-2">Date</h1>
             <Calendar
@@ -119,7 +129,6 @@ export default function Reservation() {
               onClickDay={(value) => handleDateChange(value)}
               activeStartDate={date}
             />
-            <p>Selected Date: {convertUTCtoLocal(date).toISOString().split('T')[0]}</p>
             {error === "Please select a date" && <p className="text-red-500 text-sm italic">{error}</p>}
           </div>
 
@@ -167,6 +176,18 @@ export default function Reservation() {
           </div>
         </Card>
       </main>
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2 className="text-2xl font-bold mb-2" >Your Booking Details</h2>
+            <p><span className="font-bold">Date: </span>{convertUTCtoLocal(date).toISOString().split('T')[0]}</p>
+            <p><span className="font-bold">Time:</span> {selectedTime}</p>
+            <p className="text-small m-2">You will receive an email shortly with the booking confirmation</p>
+            <button onClick={() => setShowModal(false)} className="bg-red-400 hover:bg-red-500  text-black rounded m-2 p-2 text-s">Close</button>
+            <Link href="/" className="bg-blue-400 hover:bg-blue-500  text-black rounded m-2 p-2 text-s">Homepage</Link>
+          </div>
+        </div>
+      )}
     </>
   );
 }

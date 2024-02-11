@@ -25,6 +25,24 @@
     opacity: 1;
 }
 
+.vuLink {
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    position:relative;
+    margin-top: 10px;
+    margin-left: 67%;
+    width: 30%;
+    border-radius: 10px;
+}
+
+.vuLogo{
+    position: relative;
+    width: 100%;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+
 
 .calendarDays {
     width: 90%;
@@ -83,6 +101,31 @@
     border-radius: 5px;
 }
 
+.modal {
+
+  display: block; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0, 0, 0, 0.4); 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; 
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
 @media screen and (max-width: 499px) {
     h1 {
         font-size: small;
@@ -125,9 +168,23 @@
     .availableTime {
         width: 100%;
     }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 45% auto; 
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; 
+        border-radius: 10px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .modal-content p {
+        font-size: small;
+    }
 }
 
-@media screen and (max-width:868px) and (min-width:501px) {
+@media screen and (max-width:1025px) and (min-width:501px) {
     .availableTime {
         width: 95%;
     }
@@ -135,5 +192,65 @@
         font-size: 0.9rem;
         margin: 2px;
         padding: 2px;
+    }
+
+    h1 {
+        font-size: small;
+    }
+    .react-calendar__navigation__prev-button {
+        margin: 5px;
+        font-size: medium;
+    }
+    .react-calendar__navigation__next-button {
+        margin: 5px;
+        font-size: medium;
+    }
+    .react-calendar__viewContainer {
+        width: 90%;
+    }
+    .react-calendar__month-view__weekdays {
+        font-size: 0.8rem;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        margin: 5px;
+    }
+    .react-calendar__month-view__weekdays__weekday abbr {
+        text-decoration: none;
+        font-size: 1rem;
+    }
+    .react-calendar__tile{
+        font-size: medium;
+        font-family: 'Open Sans', sans-serif;
+        margin-top: 2px;
+    }
+    .calendar {
+        width: 95%;
+    }
+    .calendarDays {
+        width: 95%;
+    }
+    .calendarTime {
+        width: 95%;
+        font-size: 0.7rem;
+        margin: 3px;
+        padding: 2px;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 45% auto; 
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; 
+        border-radius: 10px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .modal-content p {
+        font-size: x-large;
+    }
+    .modal-content h2 {
+        font-size: xx-large;
     }
 }
