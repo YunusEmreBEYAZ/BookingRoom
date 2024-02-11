@@ -7,8 +7,8 @@ import  fetchAvailability  from "../api/api";
 import {sendMail} from "../lib/mail";
 import Image from "next/image";
 import VuLogo from "../../../public/logo.png";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import bookSuccess from "../../../public/bookSuccess.png";
 
 
 
@@ -88,7 +88,7 @@ export default function Reservation() {
         console.log(selectedTime);
         console.log(convertUTCtoLocal(date).toISOString().split('T')[0]);
         setShowModal(true);
-        setEmail("");
+
     } else {
       setError("Please provide an email with @gmail.com");
     };
@@ -180,11 +180,19 @@ export default function Reservation() {
         <div className="modal">
           <div className="modal-content">
             <h2 className="text-2xl font-bold mb-2" >Your Booking Details</h2>
-            <p><span className="font-bold">Date: </span>{convertUTCtoLocal(date).toISOString().split('T')[0]}</p>
-            <p><span className="font-bold">Time:</span> {selectedTime}</p>
+            <div className="bookingDetails">
+              <div className="text-justify">
+              <p><span className="font-bold align-start">Date: </span>{convertUTCtoLocal(date).toISOString().split('T')[0]}</p>
+              <p><span className="font-bold">Time: </span> {selectedTime}</p>
+              <p><span className="font-bold">Email: </span> {email}</p>
+              </div>
+              <div>
+              <Image src={bookSuccess} alt="bookSuccess" />
+              </div>
+
+            </div>
             <p className="text-small m-2">You will receive an email shortly with the booking confirmation</p>
-            <button onClick={() => setShowModal(false)} className="bg-red-400 hover:bg-red-500  text-black rounded m-2 p-2 text-s">Close</button>
-            <Link href="/" className="bg-blue-400 hover:bg-blue-500  text-black rounded m-2 p-2 text-s">Homepage</Link>
+            <Link href="/" className="bg-blue-400 hover:bg-blue-500  text-white rounded-full m-3 p-2 text-xs">Homepage</Link>
           </div>
         </div>
       )}
