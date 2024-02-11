@@ -124,17 +124,19 @@ export default function Reservation() {
           </div>
 
             
-          <div className="flex flex-col items-center justify-between">
+          <div className="flex flex-col items-center justify-between availableTime ">
            <h1 className="text-2xl font-bold mb-2">Available Times</h1>
            {error === "Please select a time slot" && <p className="text-red-500 text-sm italic">{error}</p>}
          
            {timeSlots.length > 0 ? (
-            <div className="grid grid-cols-4 " >
+            <div className="grid grid-cols-4 availableTime " >
             {timeSlots.map((timeSlot, index) => (
               <button
                 key={index}
-                className="bg-white hover:bg-blue-400 select:bg-green-400 text-black rounded m-2 p-2 text-s calendarTime"
+                className={`${selectedTime === timeSlot ? "bg-green-400" : "bg-white"} hover:bg-green-400  text-black rounded m-2 p-2 text-s calendarTime`}
                 onClick={() => handleTimeSelect(timeSlot)}
+                
+                
               > 
                 <p>{timeSlot}</p>
               </button>

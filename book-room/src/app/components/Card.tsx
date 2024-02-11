@@ -1,5 +1,7 @@
+import React, {useState,useEffect} from "react"
+
 const Card = ({children}: {children : React.ReactNode}) => {
-    const cardStyle : React.CSSProperties = {
+    const [cardStyle, setCardStyle] = useState<React.CSSProperties>({
         position: "absolute",
         display: "flex",
         justifyContent: "space-between",
@@ -18,17 +20,40 @@ const Card = ({children}: {children : React.ReactNode}) => {
         flexWrap: "nowrap",
 
     
-    }
-    if(typeof window !== "undefined") {
+    });
 
+    useEffect(()=> {
+        const handleResize = ()=> {
+            if(window.innerWidth < 768){
+                setCardStyle({
+                    ...cardStyle,
+                    width: "96%",
+                    height: "90%",
+                    padding: "10px"
 
+                })
 
-        if(window.innerWidth < 768){
-            cardStyle.width = "95%";
-            cardStyle.height = "95%";
-            cardStyle.padding = "20px";
+            } else if(window.innerHeight < 669){
+                setCardStyle({
+                    ...cardStyle,
+                    height: "99%",
+
+                })
+            }  else {
+                setCardStyle({
+                    ...cardStyle,
+                    width: "60%",
+                    height: "90%",
+                    padding: "10px"
+                })
+            }
         }
-    }
+
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        }
+    },[cardStyle]);
 
     return (
         <div style={cardStyle}>{children}</div>
