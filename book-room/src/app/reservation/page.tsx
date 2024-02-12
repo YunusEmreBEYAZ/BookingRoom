@@ -79,7 +79,7 @@ export default function Reservation() {
       return;
     }
 
-    if(email.endsWith("@vu.nl")) {
+    if(email.endsWith("@vue.nl")) {
       try {
         await sendMail(
       
@@ -87,9 +87,6 @@ export default function Reservation() {
             subject: "Room Reservation", 
             body: `<h4>You have successfully booked a room for ${convertUTCtoLocal(date).toISOString().split('T')[0]} at ${selectedTime}</h4>`,
           });
-          console.log(email);
-          console.log(selectedTime);
-          console.log(convertUTCtoLocal(date).toISOString().split('T')[0]);
           setShowModal(true);
       } catch (error) {
         setError("Failed to send email/confirmation. Please try again later.");
@@ -188,10 +185,10 @@ export default function Reservation() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            {error === "Please provide an email with @gmail.com" && <p className="text-red-500 text-sm italic">{error}</p>}
+            {error === "Please provide an email with @vu.nl" && <p className="text-red-500 text-sm italic">{error}</p>}
             {error === "Failed to send email or confirm. Please try again later." && <p className="text-red-500 text-sm italic">{error}</p>}
             <button 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-8"
             onClick={()=>handleSubmit()}>
               Confirm
             </button>
@@ -214,7 +211,7 @@ export default function Reservation() {
 
             </div>
             <p className="text-small m-2">You will receive an email shortly with the booking confirmation</p>
-            <Link href="/" className="bg-blue-400 hover:bg-blue-500  text-white rounded-full m-3 p-2 text-xs">Homepage</Link>
+            <Link href="/" className="bg-blue-400 hover:bg-blue-500  text-white rounded-full p-2 text-xs">Homepage</Link>
           </div>
         </div>
       )}

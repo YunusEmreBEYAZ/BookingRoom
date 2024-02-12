@@ -18,6 +18,7 @@ const Card = ({children}: {children : React.ReactNode}) => {
         backgroundColor: "#f8f8f8",
         flexDirection: "column",
         flexWrap: "nowrap",
+        opacity: "0.8"
 
     
     });
@@ -28,7 +29,7 @@ const Card = ({children}: {children : React.ReactNode}) => {
                 setCardStyle({
                     ...cardStyle,
                     width: "96%",
-                    height: "90%",
+                    height: "95%",
                     padding: "10px"
 
                 })
@@ -43,7 +44,7 @@ const Card = ({children}: {children : React.ReactNode}) => {
                 setCardStyle({
                     ...cardStyle,
                     width: "60%",
-                    height: "90%",
+                    height: "95%",
                     padding: "10px"
                 })
             }
@@ -53,7 +54,7 @@ const Card = ({children}: {children : React.ReactNode}) => {
         return () => {
             window.removeEventListener("resize", handleResize);
         }
-    },[cardStyle]);
+    });
 
     return (
         <div style={cardStyle}>{children}</div>
