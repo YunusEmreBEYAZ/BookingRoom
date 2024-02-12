@@ -66,6 +66,7 @@ export default function Reservation() {
 
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time);
+
   };
 
   const handleSubmit = async() => {
@@ -78,7 +79,7 @@ export default function Reservation() {
       return;
     }
 
-    if(email.endsWith("@gmail.com")) {
+    if(email.endsWith("@vu.nl")) {
       try {
         await sendMail(
       
@@ -95,7 +96,7 @@ export default function Reservation() {
       }
       
     } else {
-      setError("Please provide an email with @gmail.com");
+      setError("Please provide an email with @vu.nl");
     };
 
   };

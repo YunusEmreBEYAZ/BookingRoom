@@ -16,6 +16,9 @@ export const sendMail = async ({
 }) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
+        //this is a temporary solution, we will use a different email service in the future
+        //google has blocked the email service due to security reasons
+        // For now it is possible to use but it has security issues
         auth: {
             user: "yebeyaz@gmail.com",
             pass: "twdygfnbvfqcspqs",
