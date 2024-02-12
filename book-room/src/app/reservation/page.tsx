@@ -9,6 +9,7 @@ import Image from "next/image";
 import VuLogo from "../../../public/logo.png";
 import Link from "next/link";
 import bookSuccess from "../../../public/bookSuccess.png";
+import { send } from "process";
 
 
 
@@ -78,23 +79,27 @@ export default function Reservation() {
     }
 
     if(email.endsWith("@gmail.com")) {
-      await sendMail(
+      try {
+        await sendMail(
       
-        {to: email, 
-          subject: "Room Reservation", 
-          body: `<h4>You have successfully booked a room for ${convertUTCtoLocal(date).toISOString().split('T')[0]} at ${selectedTime}</h4>`,
-        });
-        console.log(email);
-        console.log(selectedTime);
-        console.log(convertUTCtoLocal(date).toISOString().split('T')[0]);
-        setShowModal(true);
-
+          {to: email, 
+            subject: "Room Reservation", 
+            body: `<h4>You have successfully booked a room for ${convertUTCtoLocal(date).toISOString().split('T')[0]} at ${selectedTime}</h4>`,
+          });
+          console.log(email);
+          console.log(selectedTime);
+          console.log(convertUTCtoLocal(date).toISOString().split('T')[0]);
+          setShowModal(true);
+      } catch (error) {
+        setError("Failed to send email/confirmation. Please try again later.");
+      }
+      
     } else {
       setError("Please provide an email with @gmail.com");
     };
 
-   
   };
+
 
   const AvailableHoursForSelectedDate = availability.find(
     (item) => new Date(item.date).toISOString().split('T')[0] === convertUTCtoLocal(date).toISOString().split('T')[0] );
@@ -103,15 +108,27 @@ export default function Reservation() {
 
   let timeSlots: string[] = [];
 
-  if (AvailableHoursForSelectedDate && AvailableHoursForSelectedDate.available_hours) {
-    AvailableHoursForSelectedDate.available_hours.forEach(hour => {
-      const startHour = parseInt(hour.start_time.split(":")[0]);
-      const endHour = parseInt(hour.end_time.split(":")[0]);
-      for (let hour = startHour; hour < endHour; hour++) {
-        timeSlots.push(`${hour}:00-${hour + 1}:00`);
-      }
-    });
-  }
+
+    for (let hour = 8; hour < 20; hour++) {
+      const formattedHour = hour.toString().padStart(1, '0');
+      timeSlots.push(`${formattedHour}:00-${(hour + 1).toString().padStart(2, '0')}:00`);
+    }
+  
+
+  let availableSlots: string[] = [];
+    if (AvailableHoursForSelectedDate && AvailableHoursForSelectedDate.available_hours) {
+      AvailableHoursForSelectedDate.available_hours.forEach(hour => {
+       const startHour = parseInt(hour.start_time.split(":")[0]);
+       const endHour = parseInt(hour.end_time.split(":")[0]);
+       for (let hour = startHour; hour < endHour; hour++) {
+        availableSlots.push(`${hour}:00-${hour + 1}:00`);
+       }
+     });
+   }
+
+
+
+  
 
   return (
     <>
@@ -133,30 +150,33 @@ export default function Reservation() {
           </div>
 
             
-          <div className="flex flex-col items-center justify-between availableTime ">
-           <h1 className="text-2xl font-bold mb-2">Available Times</h1>
-           {error === "Please select a time slot" && <p className="text-red-500 text-sm italic">{error}</p>}
-         
-           {timeSlots.length > 0 ? (
-            <div className="grid grid-cols-4 availableTime " >
-            {timeSlots.map((timeSlot, index) => (
-              <button
-                key={index}
-                className={`${selectedTime === timeSlot ? "bg-green-400" : "bg-white"} hover:bg-green-400  text-black rounded m-2 p-2 text-s calendarTime`}
-                onClick={() => handleTimeSelect(timeSlot)}
-                
-                
-              > 
-                <p>{timeSlot}</p>
-              </button>
-            ))}
+          <div className="flex flex-col items-center justify-between availableTime">
+          <h1 className="text-2xl font-bold mb-2">Available Times</h1>
+          {error === "Please select a time slot" && <p className="text-red-500 text-sm italic">{error}</p>}
+          {timeSlots.length > 0 ? (
+            <div className="grid grid-cols-4 availableTime">
+              {timeSlots.map((timeSlot, index) => {
+                const isAvailable = availableSlots.includes(timeSlot);
+                return (
+                  <button
+                    key={index}
+                    className={`${
+                      selectedTime === timeSlot ? "bg-green-400" : "bg-white"
+                    } ${
+                      isAvailable ? "text-black hover:bg-green-400 cursor-pointer" : "text-gray-400 cursor-not-allowed"
+                    } rounded-full m-2 p-2 text-sm calendarTime`}
+                    onClick={() => isAvailable && handleTimeSelect(timeSlot)}
+                    disabled={!isAvailable}
+                  >
+                    <p style={{ fontWeight: isAvailable ? "bold" : "normal" }}>{timeSlot}</p>
+                  </button>
+                );
+              })}
             </div>
-
-              ) : ( <p className="text-red-500">Sorry, there are no available time slots for the selected date.</p>
-              )}
-              
-                
-          </div>
+          ) : (
+            <p className="text-red-500">Sorry, there are no available time slots for the selected date.</p>
+          )}
+        </div>
 
           <div className="flex flex-col items-center justify-between">
             <h1 className="text-2xl font-bold mb-2">Email</h1>
@@ -168,6 +188,7 @@ export default function Reservation() {
               onChange={(e) => setEmail(e.target.value)}
             />
             {error === "Please provide an email with @gmail.com" && <p className="text-red-500 text-sm italic">{error}</p>}
+            {error === "Failed to send email or confirm. Please try again later." && <p className="text-red-500 text-sm italic">{error}</p>}
             <button 
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8"
             onClick={()=>handleSubmit()}>

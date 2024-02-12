@@ -25,7 +25,7 @@ export const sendMail = async ({
     });
 
     try {
-        // Verify SMTP transport
+
         const test = await transporter.verify();
         console.log('SMTP transport verification:', test);
     } catch (error) {
@@ -34,7 +34,7 @@ export const sendMail = async ({
     }
 
     try {
-        // Send email
+
         const sendResult = await transporter.sendMail({
             from: "yebeyaz@gmail.com",
             to,
